@@ -4,9 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+
+using Play.Common.MongoDB;
+using Play.Common.Settings;
+
 using Play.Catalog.Entities;
-using Play.Catalog.Repositories;
-using Play.Catalog.Service.Settings;
 
 namespace Play.Catalog.Service
 {
