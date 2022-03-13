@@ -1,2 +1,4 @@
 src/Play.Catalog.Service/bin
 src/Play.Catalog.Service/obj
+src/Play.Catalog.Contracts/obj
+src/Play.Catalog.Contracts/bin
