@@ -5,20 +5,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
+using MassTransit;
+using MassTransit.Definition;
+
 using Play.Common.MongoDB;
 using Play.Common.Settings;
 
 using Play.Catalog.Entities;
-using MassTransit;
 using Play.Catalog.Service.Settings;
-using MassTransit.Definition;
 
 namespace Play.Catalog.Service
 {
     public class Startup
     {
-        private ServiceSettings serviceSettings;
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,6 +36,7 @@ namespace Play.Catalog.Service
                 x.UsingRabbitMq((context, configurator) =>
                 {
                     var rabbitMQSettings = Configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
+                    var serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
                     configurator.Host(rabbitMQSettings.Host);
                     configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
                 });
