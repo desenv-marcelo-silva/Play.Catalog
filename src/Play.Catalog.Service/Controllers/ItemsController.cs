@@ -61,7 +61,7 @@ namespace Play.Catalog.Service.Controllers
             await itemsRepository.CreateAsync(item);
 
             await publishEndpoint.Publish(new CatalogItemCreated(item.Id, item.Name, item.Description));
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, createItemDto);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
         }
 
         // PUT /items/123
