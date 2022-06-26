@@ -12,6 +12,7 @@ using Play.Common.MongoDB;
 using Play.Catalog.Entities;
 using Play.Common.MassTransit;
 using Play.Common.Settings;
+using Play.Common.Identity;
 
 namespace Play.Catalog.Service
 {
@@ -32,19 +33,13 @@ namespace Play.Catalog.Service
             var serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
             services.AddMongo()
                     .AddMongoRepository<Item>("items")
-                    .AddMassTransitWithRabbitMq();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.Authority = "https://localhost:5003";
-                        options.Audience = serviceSettings.ServiceName;
-                    });
+                    .AddMassTransitWithRabbitMq()
+                    .AddJwtBearerAuthentication();
 
             services.AddControllers(options =>
-            {
-                options.SuppressAsyncSuffixInActionNames = false;
-            });
+          {
+              options.SuppressAsyncSuffixInActionNames = false;
+          });
 
             services.AddSwaggerGen(c =>
             {
