@@ -15,7 +15,6 @@ namespace Play.Catalog.Service.Controllers
     // https://localhost:5001/items
     [ApiController]
     [Route("items")]
-    [Authorize(Roles = AdminRole)]
     public class ItemsController : ControllerBase
     {
         private const string AdminRole = "Admin";
@@ -30,6 +29,7 @@ namespace Play.Catalog.Service.Controllers
 
         // GET /items
         [HttpGet]
+        [Authorize(Policies.Read)]
         public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
         {
             var items = (await itemsRepository.GetAllAsync())
@@ -39,6 +39,7 @@ namespace Play.Catalog.Service.Controllers
 
         // GET /items/1234
         [HttpGet("{id}")]
+        [Authorize(Policies.Read)]
         public async Task<ActionResult<ItemDto>> GetByIdAsync(Guid id)
         {
             var item = await itemsRepository.GetAsync(id);
@@ -51,6 +52,7 @@ namespace Play.Catalog.Service.Controllers
 
         // POST /items
         [HttpPost]
+        [Authorize(Policies.Write)]
         public async Task<ActionResult<ItemDto>> PostAsync(CreateItemDto createItemDto)
         {
             var item = new Item
@@ -69,6 +71,7 @@ namespace Play.Catalog.Service.Controllers
 
         // PUT /items/123
         [HttpPut("{id}")]
+        [Authorize(Policies.Write)]
         public async Task<IActionResult> PutAsync(Guid id, UpdateItemDto updateItemDto)
         {
             var existingItem = await itemsRepository.GetAsync(id);
@@ -91,6 +94,7 @@ namespace Play.Catalog.Service.Controllers
 
         // DELETE /items/123
         [HttpDelete("{id}")]
+        [Authorize(Policies.Write)]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var item = await itemsRepository.GetAsync(id);
